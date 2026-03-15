@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Entre Runas e Cinzas - Ficha</title>
+
+<style>
+
+body{
+font-family: Arial;
+background-image: url("fundo.png");
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+color:white;
+padding:30px;
+}
+
+h1,h2{
+text-align:center;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:rgba(20,20,20,0.9);
+padding:25px;
+border-radius:12px;
+box-shadow:0 0 20px rgba(0,0,0,0.7);
+}
+
+.topo{
+position:sticky;
+top:0;
+background:rgba(0,0,0,0.85);
+padding:10px;
+border-radius:8px;
+margin-bottom:20px;
+text-align:center;
+font-size:20px;
+}
+
+label{
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:6px;
+margin-top:5px;
+margin-bottom:15px;
+background:#2c2c2c;
+color:white;
+border:none;
+border-radius:5px;
+}
+
+textarea{
+width:100%;
+height:120px;
+padding:10px;
+background:#1f1f1f;
+color:white;
+border:none;
+border-radius:6px;
+margin-bottom:20px;
+resize:none;
+}
+
+.pericia{
+display:grid;
+grid-template-columns: 1fr 150px 120px 100px;
+align-items:center;
+margin:6px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
+padding-bottom:4px;
+}
+
+.controle{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:8px;
+}
+
+.numero{
+width:30px;
+text-align:center;
+font-weight:bold;
+}
+
+.extremo{
+font-size:12px;
+color:#bbbbbb;
+text-align:center;
+}
+
+.resultado{
+font-size:12px;
+text-align:center;
+color:#dddddd;
+}
+
+button{
+width:28px;
+height:28px;
+background:#444;
+color:white;
+border:none;
+border-radius:4px;
+}
+
+button:hover{
+background:#666;
+cursor:pointer;
+}
+
+.status{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:10px;
+margin-bottom:20px;
+}
+
+.statusbox{
+background:#222;
+padding:10px;
+border-radius:6px;
+text-align:center;
+}
+
+.statusbox span{
+font-size:18px;
+display:block;
+margin:5px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Entre Runas e Cinzas</h1>
+
+<div class="topo">
+Pontos restantes: <span id="pontos">72</span>
+</div>
+
+<div style="display:flex; gap:20px; align-items:center; margin-bottom:20px;">
+
+<div>
+<label>Imagem do Personagem</label>
+<br>
+<img id="preview" src="" style="width:120px;height:120px;object-fit:cover;border-radius:8px;background:#222;">
+<br><br>
+<input type="file" accept="image/*" onchange="carregarImagem(event)">
+</div>
+
+<div style="flex:1;">
+<label>Nome do Personagem</label>
+<input type="text">
+</div>
+
+</div>
+
+<label>Classe</label>
+<select>
+<option>Assassino</option>
+<option>Investigador</option>
+<option>Mago</option>
+<option>Tank</option>
+</select>
+
+<label>Defesa</label>
+<input type="number">
+
+<label>Imagem do Personagem</label>
+<input type="file">
+
+<div class="status">
+
+<div class="statusbox">
+Vida
+<div class="controle">
+<button onclick="menosStatus('vida')">-</button>
+<span id="vida">10</span>
+<button onclick="maisStatus('vida')">+</button>
+</div>
+</div>
+
+<div class="statusbox">
+Sanidade
+<div class="controle">
+<button onclick="menosStatus('sanidade')">-</button>
+<span id="sanidade">10</span>
+<button onclick="maisStatus('sanidade')">+</button>
+</div>
+</div>
+
+<div class="statusbox">
+Pontos
+<div class="controle">
+<button onclick="menosStatus('pontoextra')">-</button>
+<span id="pontoextra">0</span>
+<button onclick="maisStatus('pontoextra')">+</button>
+</div>
+</div>
+
+</div>
+
+<h2>Perícias</h2>
+
+<div id="lista"></div>
+
+<h2>Habilidades</h2>
+<textarea placeholder="Escreva as habilidades do personagem..."></textarea>
+
+<h2>Magias</h2>
+<textarea placeholder="Liste as magias do personagem..."></textarea>
+
+<h2>Itens</h2>
+<textarea placeholder="Itens carregados pelo personagem..."></textarea>
+
+</div>
+
+<script>
+
+let pontos = 72
+
+let extremos = [
+[12,12],
+[15,16],
+[16,18],
+[17,20],
+[18,22]
+]
+
+let dadosBonus = [0,4,6,8,10]
+
+let pericias = [
+
+"Espadas","Lâminas Leves","Armas Pesadas","Arcos","Combate Desarmado",
+"Esquiva","Força","Pontaria",
+
+"Atletismo","Acrobacia","Escalada","Iniciativa","Furtividade","Reflexos",
+"Natação",
+
+"Investigação","Percepção","História","Religião","Linguística","Intuição",
+"Arcano","Conhecimento",
+
+"Persuasão","Diplomacia","Intimidação","Enganação","Empatia",
+"Liderança","Vontade",
+
+"Sobrevivência","Rastreamento","Caça","Agricultura","Navegação",
+"Adestramento","Crime",
+
+"Medicina","Alquimia","Engenharia","Ferraria","Tecnologia","Magia",
+"Pilotagem","Artesanato","Música","Culinária","Pintura","Sorte"
+
+]
+
+let lista = document.getElementById("lista")
+
+pericias.forEach(nome=>{
+
+let id = nome.replace(/\s/g,'')
+
+let div = document.createElement("div")
+div.className="pericia"
+
+div.innerHTML=`
+
+<span>${nome}</span>
+
+<div class="controle">
+<button onclick="menos('${id}')">-</button>
+<span class="numero" id="${id}">0</span>
+<button onclick="mais('${id}')">+</button>
+</div>
+
+<span class="extremo" id="extremo_${id}">
+Extremo: 12
+</span>
+
+<div class="controle">
+<button onclick="rolar('${id}')">🎲</button>
+</div>
+
+<div class="resultado" id="resultado_${id}"></div>
+
+`
+
+lista.appendChild(div)
+
+})
+
+function atualizarExtremo(nome){
+
+let nivel=parseInt(document.getElementById(nome).innerText)
+let faixa=extremos[nivel]
+
+document.getElementById("extremo_"+nome).innerText =
+"Extremo: "+faixa[0]+"-"+faixa[1]
+
+}
+
+function mais(nome){
+
+let valor=document.getElementById(nome)
+let nivel=parseInt(valor.innerText)
+
+if(pontos<=0)return
+if(nivel>=4)return
+
+valor.innerText=nivel+1
+pontos--
+
+document.getElementById("pontos").innerText=pontos
+
+atualizarExtremo(nome)
+
+}
+
+function menos(nome){
+
+let valor=document.getElementById(nome)
+let nivel=parseInt(valor.innerText)
+
+if(nivel<=0)return
+
+valor.innerText=nivel-1
+pontos++
+
+document.getElementById("pontos").innerText=pontos
+
+atualizarExtremo(nome)
+
+}
+
+function rolar(nome){
+
+let nivel=parseInt(document.getElementById(nome).innerText)
+
+let d12=Math.floor(Math.random()*12)+1
+
+let bonusDado=dadosBonus[nivel]
+let bonus=0
+
+if(bonusDado>0){
+bonus=Math.floor(Math.random()*bonusDado)+1
+}
+
+let total=d12+bonus
+
+let resultado="Sucesso"
+
+if(d12<6){
+resultado="Fracasso"
+}
+
+let faixa=extremos[nivel]
+
+if(total>=faixa[0] && total<=faixa[1]){
+resultado="Extremo"
+}
+
+let texto=`D12:${d12}`
+
+if(bonusDado>0){
+texto+=` D${bonusDado}:${bonus}`
+}
+
+texto+=` → ${resultado}`
+
+document.getElementById("resultado_"+nome).innerText=texto
+
+}
+
+function maisStatus(nome){
+
+let valor=document.getElementById(nome)
+valor.innerText=parseInt(valor.innerText)+1
+
+}
+
+function menosStatus(nome){
+
+let valor=document.getElementById(nome)
+let num=parseInt(valor.innerText)
+
+if(num<=0)return
+
+valor.innerText=num-1
+
+}
+
+function carregarImagem(event){
+
+let leitor = new FileReader()
+
+leitor.onload = function(){
+document.getElementById("preview").src = leitor.result
+}
+
+leitor.readAsDataURL(event.target.files[0])
+
+}
+
+// SALVAR FICHA
+function salvarFicha(){
+
+let ficha = {
+nome: document.querySelector("input[type=text]").value,
+classe: document.querySelector("select").value,
+defesa: document.querySelector("input[type=number]").value
+}
+
+localStorage.setItem("fichaRPG", JSON.stringify(ficha))
+
+}
+
+// CARREGAR FICHA
+function carregarFicha(){
+
+let dados = localStorage.getItem("fichaRPG")
+
+if(dados){
+
+let ficha = JSON.parse(dados)
+
+document.querySelector("input[type=text]").value = ficha.nome
+document.querySelector("select").value = ficha.classe
+document.querySelector("input[type=number]").value = ficha.defesa
+
+}
+
+}
+
+carregarFicha()
+
+document.addEventListener("input", salvarFicha)
+</script>
+
+</body>
+
+</html>
