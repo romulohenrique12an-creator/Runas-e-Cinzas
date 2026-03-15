@@ -208,6 +208,24 @@ Sanidade Atual
 
 </div>
 
+<h2>Rolagem de Dados</h2>
+
+<div style="text-align:center;margin-bottom:20px;">
+
+<button onclick="rolarDado(4)">D4</button>
+<button onclick="rolarDado(6)">D6</button>
+<button onclick="rolarDado(8)">D8</button>
+<button onclick="rolarDado(10)">D10</button>
+<button onclick="rolarDado(12)">D12</button>
+<button onclick="rolarDado(20)">D20</button>
+<button onclick="rolarDado(100)">D100</button>
+
+<div style="margin-top:10px;font-size:20px;">
+Resultado: <span id="resultadoDado">-</span>
+</div>
+
+</div>
+
 <h2>Perícias</h2>
 
 <div id="lista"></div>
@@ -426,24 +444,36 @@ carregarMenu()
 
 function salvarFicha(){
 
+let dadosPericias = {}
+
+pericias.forEach(nome=>{
+let id = nome.replace(/\s/g,'')
+dadosPericias[id] = document.getElementById(id).innerText
+})
+
 let ficha={
 nome:nome.value,
 classe:classe.value,
 defesa:defesa.value,
+
 vida:vida.innerText,
 vidaMax:vidaMax.value,
+
 sanidade:sanidade.innerText,
-sanMax:sanMax.value
+sanMax:sanMax.value,
+
+habilidades:habilidades.value,
+magias:magias.value,
+itens:itens.value,
+
+pericias:dadosPericias,
+pontos:pontos
 }
 
 if(fichaAtual==null){
-
 fichas.push(ficha)
-
 }else{
-
 fichas[fichaAtual]=ficha
-
 }
 
 localStorage.setItem("fichasERC",JSON.stringify(fichas))
@@ -521,6 +551,14 @@ document.getElementById("preview").src = reader.result
 }
 
 reader.readAsDataURL(event.target.files[0])
+
+}
+
+function rolarDado(lados){
+
+let resultado = Math.floor(Math.random()*lados)+1
+
+document.getElementById("resultadoDado").innerText = resultado
 
 }
 
