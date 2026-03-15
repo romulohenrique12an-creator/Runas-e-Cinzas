@@ -426,6 +426,48 @@ carregarMenu()
 
 function salvarFicha(){
 
+let dadosPericias = {}
+
+pericias.forEach(nome=>{
+let id = nome.replace(/\s/g,'')
+dadosPericias[id] = document.getElementById(id).innerText
+})
+
+let ficha={
+nome:nome.value,
+classe:classe.value,
+defesa:defesa.value,
+
+vida:vida.innerText,
+vidaMax:vidaMax.value,
+
+sanidade:sanidade.innerText,
+sanMax:sanMax.value,
+
+habilidades:habilidades.value,
+magias:magias.value,
+itens:itens.value,
+
+pericias:dadosPericias,
+pontos:pontos
+}
+
+if(fichaAtual==null){
+
+fichas.push(ficha)
+
+}else{
+
+fichas[fichaAtual]=ficha
+
+}
+
+localStorage.setItem("fichasERC",JSON.stringify(fichas))
+
+voltarMenu()
+
+}
+
 let ficha={
 nome:nome.value,
 classe:classe.value,
