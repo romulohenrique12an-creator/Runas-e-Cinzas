@@ -1,18 +1,21 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
-<title>Entre Runas e Cinzas - Ficha</title>
+<title>Entre Runas e Cinzas</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-font-family: Arial;
-background-image: url("fundo.png");
-background-size: cover;
-background-position: center;
-background-attachment: fixed;
+font-family:Arial;
+background-image:url("fundo.png");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
 color:white;
 padding:30px;
 }
@@ -33,54 +36,39 @@ box-shadow:0 0 20px rgba(0,0,0,0.7);
 .topo{
 position:sticky;
 top:0;
-background:rgba(0,0,0,0.85);
+background:rgba(0,0,0,0.9);
 padding:10px;
 border-radius:8px;
 margin-bottom:20px;
 text-align:center;
-font-size:20px;
+font-size:18px;
 }
 
-label{
-font-weight:bold;
-}
-
-input,select{
-width:100%;
-padding:6px;
-margin-top:5px;
-margin-bottom:15px;
-background:#2c2c2c;
+button{
+background:#444;
 color:white;
 border:none;
+padding:5px 10px;
 border-radius:5px;
+cursor:pointer;
 }
 
-textarea{
-width:100%;
-height:120px;
-padding:10px;
-background:#1f1f1f;
-color:white;
-border:none;
-border-radius:6px;
-margin-bottom:20px;
-resize:none;
+button:hover{
+background:#666;
 }
 
 .pericia{
 display:grid;
-grid-template-columns: 1fr 150px 120px 100px;
+grid-template-columns:1fr 150px 120px;
 align-items:center;
 margin:6px 0;
-border-bottom:1px solid rgba(255,255,255,0.05);
+border-bottom:1px solid rgba(255,255,255,0.1);
 padding-bottom:4px;
 }
 
 .controle{
 display:flex;
 justify-content:center;
-align-items:center;
 gap:8px;
 }
 
@@ -90,50 +78,47 @@ text-align:center;
 font-weight:bold;
 }
 
-.extremo{
-font-size:12px;
-color:#bbbbbb;
-text-align:center;
-}
-
-.resultado{
-font-size:12px;
-text-align:center;
-color:#dddddd;
-}
-
-button{
-width:28px;
-height:28px;
-background:#444;
-color:white;
-border:none;
-border-radius:4px;
-}
-
-button:hover{
-background:#666;
-cursor:pointer;
-}
-
 .status{
 display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:10px;
+grid-template-columns:1fr 1fr;
+gap:20px;
 margin-bottom:20px;
 }
 
 .statusbox{
 background:#222;
-padding:10px;
-border-radius:6px;
+padding:15px;
+border-radius:8px;
 text-align:center;
 }
 
-.statusbox span{
-font-size:18px;
-display:block;
-margin:5px 0;
+.maxbox{
+width:60px;
+background:#111;
+color:white;
+border:none;
+border-radius:5px;
+text-align:center;
+margin-bottom:10px;
+}
+
+textarea{
+width:100%;
+height:100px;
+background:#1f1f1f;
+color:white;
+border:none;
+border-radius:6px;
+margin-bottom:20px;
+padding:10px;
+}
+
+.fichaCard{
+background:#222;
+padding:10px;
+border-radius:10px;
+width:160px;
+text-align:center;
 }
 
 </style>
@@ -142,72 +127,83 @@ margin:5px 0;
 
 <body>
 
-<div class="container">
+<div id="menu">
 
 <h1>Entre Runas e Cinzas</h1>
 
-<div class="topo">
-Pontos restantes: <span id="pontos">72</span>
+<button onclick="novaFicha()">Criar Nova Ficha</button>
+
+<div id="listaFichas" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:30px;"></div>
+
 </div>
 
-<div style="display:flex; gap:20px; align-items:center; margin-bottom:20px;">
+<div class="container" id="editor" style="display:none">
 
-<div>
+<h1>Ficha</h1>
+
+<div class="topo">
+
+Pontos de Perícia: <span id="pontos">70</span>
+
+<button onclick="maisPontos()">+4</button> <button onclick="menosPontos()">-4</button>
+
+</div>
+
+<label>Nome</label> <input id="nome">
+
 <label>Imagem do Personagem</label>
 <br>
+
 <img id="preview" src="" style="width:120px;height:120px;object-fit:cover;border-radius:8px;background:#222;">
+
 <br><br>
+
 <input type="file" accept="image/*" onchange="carregarImagem(event)">
-</div>
 
-<div style="flex:1;">
-<label>Nome do Personagem</label>
-<input type="text">
-</div>
+<label>Classe</label> <select id="classe">
 
-</div>
-
-<label>Classe</label>
-<select>
 <option>Assassino</option>
-<option>Investigador</option>
-<option>Mago</option>
 <option>Tank</option>
+<option>Mago</option>
+<option>Investigador</option>
 </select>
 
-<label>Defesa</label>
-<input type="number">
+<label>Defesa</label> <input id="defesa" type="number">
 
-<label>Imagem do Personagem</label>
-<input type="file">
+<h2>Status</h2>
 
 <div class="status">
 
 <div class="statusbox">
-Vida
+
+Vida Máxima <br> <input id="vidaMax" class="maxbox" type="number" onchange="sincronizarVida()">
+
+<br>
+
+Vida Atual
+
 <div class="controle">
-<button onclick="menosStatus('vida')">-</button>
-<span id="vida">10</span>
-<button onclick="maisStatus('vida')">+</button>
+
+<button onclick="menosStatus('vida')">-</button> <span id="vida">0</span> <button onclick="maisStatus('vida')">+</button>
+
 </div>
+
 </div>
 
 <div class="statusbox">
-Sanidade
+
+Sanidade Máxima <br> <input id="sanMax" class="maxbox" type="number" onchange="sincronizarSan()">
+
+<br>
+
+Sanidade Atual
+
 <div class="controle">
-<button onclick="menosStatus('sanidade')">-</button>
-<span id="sanidade">10</span>
-<button onclick="maisStatus('sanidade')">+</button>
-</div>
+
+<button onclick="menosStatus('sanidade')">-</button> <span id="sanidade">0</span> <button onclick="maisStatus('sanidade')">+</button>
+
 </div>
 
-<div class="statusbox">
-Pontos
-<div class="controle">
-<button onclick="menosStatus('pontoextra')">-</button>
-<span id="pontoextra">0</span>
-<button onclick="maisStatus('pontoextra')">+</button>
-</div>
 </div>
 
 </div>
@@ -217,59 +213,38 @@ Pontos
 <div id="lista"></div>
 
 <h2>Habilidades</h2>
-<textarea placeholder="Escreva as habilidades do personagem..."></textarea>
+<textarea id="habilidades"></textarea>
 
 <h2>Magias</h2>
-<textarea placeholder="Liste as magias do personagem..."></textarea>
+<textarea id="magias"></textarea>
 
 <h2>Itens</h2>
-<textarea placeholder="Itens carregados pelo personagem..."></textarea>
+<textarea id="itens"></textarea>
+
+<br>
+
+<button onclick="salvarFicha()">Salvar Ficha</button> <button onclick="voltarMenu()">Voltar</button>
 
 </div>
 
 <script>
 
-let pontos = 72
+let fichas=JSON.parse(localStorage.getItem("fichasERC"))||[]
+let fichaAtual=null
 
-let extremos = [
-[12,12],
-[15,16],
-[16,18],
-[17,20],
-[18,22]
+let pontos=70
+
+let pericias=[
+"Espadas","Lâminas Leves","Armas Pesadas","Arcos","Combate Desarmado", "Esquiva","Força","Pontaria", "Atletismo","Acrobacia","Escalada","Iniciativa","Furtividade","Reflexos", "Natação", "Investigação","Percepção","História","Religião","Linguística","Intuição", "Arcano","Conhecimento", "Persuasão","Diplomacia","Intimidação","Enganação","Empatia", "Liderança","Vontade", "Sobrevivência","Rastreamento","Caça","Agricultura","Navegação", "Adestramento","Crime", "Medicina","Alquimia","Engenharia","Ferraria","Tecnologia","Magia", "Pilotagem","Artesanato","Música","Culinária","Pintura","Sorte",
 ]
 
-let dadosBonus = [0,4,6,8,10]
-
-let pericias = [
-
-"Espadas","Lâminas Leves","Armas Pesadas","Arcos","Combate Desarmado",
-"Esquiva","Força","Pontaria",
-
-"Atletismo","Acrobacia","Escalada","Iniciativa","Furtividade","Reflexos",
-"Natação",
-
-"Investigação","Percepção","História","Religião","Linguística","Intuição",
-"Arcano","Conhecimento",
-
-"Persuasão","Diplomacia","Intimidação","Enganação","Empatia",
-"Liderança","Vontade",
-
-"Sobrevivência","Rastreamento","Caça","Agricultura","Navegação",
-"Adestramento","Crime",
-
-"Medicina","Alquimia","Engenharia","Ferraria","Tecnologia","Magia",
-"Pilotagem","Artesanato","Música","Culinária","Pintura","Sorte"
-
-]
-
-let lista = document.getElementById("lista")
+let lista=document.getElementById("lista")
 
 pericias.forEach(nome=>{
 
-let id = nome.replace(/\s/g,'')
+let id=nome.replace(/\s/g,'')
 
-let div = document.createElement("div")
+let div=document.createElement("div")
 div.className="pericia"
 
 div.innerHTML=`
@@ -277,20 +252,22 @@ div.innerHTML=`
 <span>${nome}</span>
 
 <div class="controle">
+
 <button onclick="menos('${id}')">-</button>
+
 <span class="numero" id="${id}">0</span>
+
 <button onclick="mais('${id}')">+</button>
+
 </div>
 
-<span class="extremo" id="extremo_${id}">
-Extremo: 12
-</span>
+<div>
 
-<div class="controle">
 <button onclick="rolar('${id}')">🎲</button>
-</div>
 
-<div class="resultado" id="resultado_${id}"></div>
+<span id="resultado_${id}"></span>
+
+</div>
 
 `
 
@@ -298,151 +275,255 @@ lista.appendChild(div)
 
 })
 
-function atualizarExtremo(nome){
-
-let nivel=parseInt(document.getElementById(nome).innerText)
-let faixa=extremos[nivel]
-
-document.getElementById("extremo_"+nome).innerText =
-"Extremo: "+faixa[0]+"-"+faixa[1]
-
-}
-
 function mais(nome){
 
-let valor=document.getElementById(nome)
-let nivel=parseInt(valor.innerText)
+let el=document.getElementById(nome)
 
+let v=parseInt(el.innerText)
+
+if(v>=4)return
 if(pontos<=0)return
-if(nivel>=4)return
 
-valor.innerText=nivel+1
+el.innerText=v+1
 pontos--
 
-document.getElementById("pontos").innerText=pontos
-
-atualizarExtremo(nome)
+atualizarPontos()
 
 }
 
 function menos(nome){
 
-let valor=document.getElementById(nome)
-let nivel=parseInt(valor.innerText)
+let el=document.getElementById(nome)
 
-if(nivel<=0)return
+let v=parseInt(el.innerText)
 
-valor.innerText=nivel-1
+if(v<=0)return
+
+el.innerText=v-1
 pontos++
+
+atualizarPontos()
+
+}
+
+function atualizarPontos(){
 
 document.getElementById("pontos").innerText=pontos
 
-atualizarExtremo(nome)
+}
+
+function maisPontos(){
+
+pontos+=4
+atualizarPontos()
+
+}
+
+function menosPontos(){
+
+if(pontos>=4){
+pontos-=4
+}
+
+atualizarPontos()
 
 }
 
 function rolar(nome){
 
-let nivel=parseInt(document.getElementById(nome).innerText)
+    let nivel = parseInt(document.getElementById(nome).innerText)
 
-let d12=Math.floor(Math.random()*12)+1
+    let d12 = Math.floor(Math.random()*12)+1
+    let bonus = 0
+    let dadoBonus = 0
 
-let bonusDado=dadosBonus[nivel]
-let bonus=0
+    if(nivel==1){dadoBonus=4}
+    if(nivel==2){dadoBonus=6}
+    if(nivel==3){dadoBonus=8}
+    if(nivel==4){dadoBonus=10}
 
-if(bonusDado>0){
-bonus=Math.floor(Math.random()*bonusDado)+1
-}
+    if(dadoBonus>0){
+        bonus = Math.floor(Math.random()*dadoBonus)+1
+    }
 
-let total=d12+bonus
+    let total = d12 + bonus
 
-let resultado="Sucesso"
+    // Verifica fracasso
+    let resultado = "Sucesso"
+    if(total < 6){
+        resultado = "Fracasso"
+    }
 
-if(d12<6){
-resultado="Fracasso"
-}
+    // Verifica extremo
+    let extremoMin = [12,15,16,17,18]
+    let extremoMax = [12,16,18,20,22]
 
-let faixa=extremos[nivel]
+    if(total >= extremoMin[nivel] && total <= extremoMax[nivel]){
+        resultado = "Extremo"
+    }
 
-if(total>=faixa[0] && total<=faixa[1]){
-resultado="Extremo"
-}
+    // Texto mostrado
+    let texto = "D12:"+d12
+    if(dadoBonus>0){
+        texto += " D"+dadoBonus+":"+bonus
+    }
+    texto += " → "+resultado
 
-let texto=`D12:${d12}`
-
-if(bonusDado>0){
-texto+=` D${bonusDado}:${bonus}`
-}
-
-texto+=` → ${resultado}`
-
-document.getElementById("resultado_"+nome).innerText=texto
-
+    document.getElementById("resultado_"+nome).innerText = texto
 }
 
 function maisStatus(nome){
 
-let valor=document.getElementById(nome)
-valor.innerText=parseInt(valor.innerText)+1
+let el=document.getElementById(nome)
+
+el.innerText=parseInt(el.innerText)+1
 
 }
 
 function menosStatus(nome){
 
-let valor=document.getElementById(nome)
-let num=parseInt(valor.innerText)
+let el=document.getElementById(nome)
 
-if(num<=0)return
+let v=parseInt(el.innerText)
 
-valor.innerText=num-1
+if(v>0)el.innerText=v-1
 
 }
+
+function sincronizarVida(){
+
+let max=document.getElementById("vidaMax").value
+
+document.getElementById("vida").innerText=max
+
+}
+
+function sincronizarSan(){
+
+let max=document.getElementById("sanMax").value
+
+document.getElementById("sanidade").innerText=max
+
+}
+
+function novaFicha(){
+
+fichaAtual=null
+
+menu.style.display="none"
+editor.style.display="block"
+
+}
+
+function voltarMenu(){
+
+menu.style.display="block"
+editor.style.display="none"
+
+carregarMenu()
+
+}
+
+function salvarFicha(){
+
+let ficha={
+nome:nome.value,
+classe:classe.value,
+defesa:defesa.value,
+vida:vida.innerText,
+vidaMax:vidaMax.value,
+sanidade:sanidade.innerText,
+sanMax:sanMax.value
+}
+
+if(fichaAtual==null){
+
+fichas.push(ficha)
+
+}else{
+
+fichas[fichaAtual]=ficha
+
+}
+
+localStorage.setItem("fichasERC",JSON.stringify(fichas))
+
+voltarMenu()
+
+}
+
+function abrirFicha(i){
+
+let f=fichas[i]
+
+fichaAtual=i
+
+menu.style.display="none"
+editor.style.display="block"
+
+nome.value=f.nome
+classe.value=f.classe
+defesa.value=f.defesa
+vida.innerText=f.vida
+vidaMax.value=f.vidaMax
+sanidade.innerText=f.sanidade
+sanMax.value=f.sanMax
+
+}
+
+function excluirFicha(i){
+
+if(confirm("Excluir ficha de "+fichas[i].nome+"?")){
+
+fichas.splice(i,1)
+
+localStorage.setItem("fichasERC",JSON.stringify(fichas))
+
+carregarMenu()
+
+}
+
+}
+
+function carregarMenu(){
+
+listaFichas.innerHTML=""
+
+fichas.forEach((f,i)=>{
+
+let card=document.createElement("div")
+card.className="fichaCard"
+
+card.innerHTML=`
+
+<h3>${f.nome}</h3>
+
+<button onclick="abrirFicha(${i})">Abrir</button>
+
+<button onclick="excluirFicha(${i})">Excluir</button>
+
+`
+
+listaFichas.appendChild(card)
+
+})
+
+}
+
+carregarMenu()
 
 function carregarImagem(event){
 
-let leitor = new FileReader()
+let reader = new FileReader()
 
-leitor.onload = function(){
-document.getElementById("preview").src = leitor.result
+reader.onload = function(){
+document.getElementById("preview").src = reader.result
 }
 
-leitor.readAsDataURL(event.target.files[0])
-
-}
-
-// SALVAR FICHA
-function salvarFicha(){
-
-let ficha = {
-nome: document.querySelector("input[type=text]").value,
-classe: document.querySelector("select").value,
-defesa: document.querySelector("input[type=number]").value
-}
-
-localStorage.setItem("fichaRPG", JSON.stringify(ficha))
+reader.readAsDataURL(event.target.files[0])
 
 }
 
-// CARREGAR FICHA
-function carregarFicha(){
-
-let dados = localStorage.getItem("fichaRPG")
-
-if(dados){
-
-let ficha = JSON.parse(dados)
-
-document.querySelector("input[type=text]").value = ficha.nome
-document.querySelector("select").value = ficha.classe
-document.querySelector("input[type=number]").value = ficha.defesa
-
-}
-
-}
-
-carregarFicha()
-
-document.addEventListener("input", salvarFicha)
 </script>
 
 </body>
