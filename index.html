@@ -438,18 +438,6 @@ let id = nome.replace(/\s/g,'')
 document.getElementById(id).innerText = 0
 })
 
-pontos = 70
-atualizarPontos()
-
-function voltarMenu(){
-
-menu.style.display="block"
-editor.style.display="none"
-
-carregarMenu()
-
-}
-
 function salvarFicha(){
 
 let dadosPericias = {}
@@ -508,18 +496,6 @@ sanidade.innerText=f.sanidade
 sanMax.value=f.sanMax
 
 }
-
-pontos = f.pontos || 70
-atualizarPontos()
-
-pericias.forEach(nome=>{
-let id = nome.replace(/\s/g,'')
-if(f.pericias && f.pericias[id] !== undefined){
-document.getElementById(id).innerText = f.pericias[id]
-}else{
-document.getElementById(id).innerText = 0
-}
-})
 
 function excluirFicha(i){
 
