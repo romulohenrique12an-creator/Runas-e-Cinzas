@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
 <meta charset="UTF-8">
 <title>Entre Runas e Cinzas</title>
@@ -7,15 +9,13 @@
 <style>
 
 body{
+margin:0;
 background-image:url("fundo.png");
 background-size:cover;
 font-family:serif;
 font-weight:bold;
-margin:0;
 color:white;
 }
-
-/* BARRA CENTRAL */
 
 .container{
 width:1100px;
@@ -24,8 +24,6 @@ background:#2a2a2a;
 padding:30px;
 min-height:100vh;
 }
-
-/* INPUTS ESCUROS */
 
 input, textarea{
 background:#111;
@@ -41,39 +39,34 @@ width:100%;
 height:120px;
 }
 
-/* TOPO */
+button{
+background:#222;
+color:white;
+border:1px solid #555;
+padding:6px 12px;
+margin:5px;
+cursor:pointer;
+font-family:serif;
+font-weight:bold;
+}
 
 .topo{
 display:flex;
 justify-content:space-between;
 }
 
-.personagem{
-width:40%;
-}
-
-.status{
-width:30%;
-}
-
-.foto{
+.foto img{
 width:120px;
 height:120px;
-background:#111;
+object-fit:cover;
 border:1px solid #555;
-margin-top:10px;
 }
-
-/* ROLADOR */
 
 .dados{
-margin:20px 0;
+margin-top:20px;
 padding:15px;
 background:#1a1a1a;
-border:1px solid #444;
 }
-
-/* ATRIBUTOS + PERICIAS */
 
 .stats{
 display:flex;
@@ -81,85 +74,104 @@ margin-top:20px;
 gap:50px;
 }
 
-.atributos{
-width:250px;
-}
-
-.atributo{
+.atributo,.pericia{
 display:flex;
 justify-content:space-between;
 margin:5px 0;
 }
 
 .pericias{
-flex:1;
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:5px 20px;
 }
 
-.pericia{
-display:flex;
-justify-content:space-between;
-}
-
-/* CAIXAS */
-
-.caixas{
-margin-top:30px;
-}
-
-button{
-background:#222;
-color:white;
-border:1px solid #555;
-padding:5px 10px;
-margin:3px;
+.cardFicha{
+display:inline-block;
+margin:20px;
+text-align:center;
 cursor:pointer;
-font-family:serif;
-font-weight:bold;
+position:relative;
+}
+
+.cardFicha img{
+width:120px;
+height:120px;
+object-fit:cover;
+border:1px solid #555;
+}
+
+.excluir{
+position:absolute;
+top:-5px;
+right:-5px;
+background:#800;
+padding:3px 6px;
+font-size:12px;
+cursor:pointer;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
+<div id="menuFichas">
+
 <h1>Entre Runas e Cinzas</h1>
+
+<button onclick="novaFicha()">Nova Ficha</button>
+
+<div id="listaFichas"></div>
+
+</div>
+
+<div id="ficha" style="display:none">
+
+<h1>Ficha</h1>
 
 <div class="topo">
 
-<div class="personagem">
+<div>
 
-Nome do personagem<br>
-<input id="nome"><br>
+Nome do personagem<br> <input id="nome"><br><br>
 
 <div class="foto">
-<input type="file">
-</div>
+
+<img id="previewFoto"><br>
+
+<input type="file" id="foto" onchange="carregarFoto()">
 
 </div>
 
-<div class="status">
+</div>
+
+<div>
 
 Vida<br>
-Atual <button onclick="vida(-1)">-</button>
-<input id="vidaAtual" value="0">
-<button onclick="vida(1)">+</button><br>
 
-Máx <input id="vidaMax"><br><br>
+Atual <button onclick="vida(-1)">-</button> <input id="vidaAtual" value="0"> <button onclick="vida(1)">+</button>
+
+<br>
+
+Máx <input id="vidaMax">
+
+<br><br>
 
 Sanidade<br>
-Atual <button onclick="sanidade(-1)">-</button>
-<input id="sanAtual" value="0">
-<button onclick="sanidade(1)">+</button><br>
 
-Máx <input id="sanMax"><br><br>
+Atual <button onclick="sanidade(-1)">-</button> <input id="sanAtual" value="0"> <button onclick="sanidade(1)">+</button>
 
-Defesa<br>
-<input id="defesa">
+<br>
+
+Máx <input id="sanMax">
+
+<br><br>
+
+Defesa<br> <input id="defesa">
 
 </div>
 
@@ -169,13 +181,7 @@ Defesa<br>
 
 <h3>Rolador de Dados</h3>
 
-<button onclick="addDado(4)">D4</button>
-<button onclick="addDado(6)">D6</button>
-<button onclick="addDado(8)">D8</button>
-<button onclick="addDado(10)">D10</button>
-<button onclick="addDado(12)">D12</button>
-<button onclick="addDado(20)">D20</button>
-<button onclick="addDado(100)">D100</button>
+<button onclick="addDado(4)">D4</button> <button onclick="addDado(6)">D6</button> <button onclick="addDado(8)">D8</button> <button onclick="addDado(10)">D10</button> <button onclick="addDado(12)">D12</button> <button onclick="addDado(20)">D20</button> <button onclick="addDado(100)">D100</button>
 
 <p id="listaDados"></p>
 
@@ -189,7 +195,7 @@ Resultado: <span id="resultado">0</span>
 
 <div class="stats">
 
-<div class="atributos">
+<div>
 
 <h3>Atributos</h3>
 
@@ -200,6 +206,10 @@ Resultado: <span id="resultado">0</span>
 <div class="atributo">Vigor <input id="vigor"></div>
 
 </div>
+
+<div>
+
+<h3>Perícias</h3>
 
 <div class="pericias">
 
@@ -236,40 +246,210 @@ Resultado: <span id="resultado">0</span>
 
 </div>
 
-<div class="caixas">
-
-<h3>Habilidades</h3>
-<textarea></textarea>
-
-<h3>Magias</h3>
-<textarea></textarea>
-
-<h3>Itens</h3>
-<textarea></textarea>
-
 </div>
 
-<br>
+<h3>Habilidades</h3>
+<textarea id="habilidades"></textarea>
 
-<button onclick="salvarFicha()">Salvar ficha</button>
-<button onclick="mostrarSalvas()">Voltar</button>
+<h3>Magias</h3>
+<textarea id="magias"></textarea>
 
-<div id="fichasSalvas"></div>
+<h3>Itens</h3>
+<textarea id="itens"></textarea>
+
+<br><br>
+
+<button onclick="salvarFicha()">Salvar ficha</button> <button onclick="voltarMenu()">Voltar</button>
+
+</div>
 
 </div>
 
 <script>
 
+let fichaAtual=null
 let dados=[]
 let resultado=0
+
+function carregarFoto(){
+
+let file=document.getElementById("foto").files[0]
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+document.getElementById("previewFoto").src=e.target.result
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+function novaFicha(){
+
+fichaAtual=null
+
+document.getElementById("menuFichas").style.display="none"
+document.getElementById("ficha").style.display="block"
+
+limparFicha()
+
+}
+
+function limparFicha(){
+
+document.querySelectorAll("input").forEach(i=>{
+if(i.type!="file") i.value=""
+})
+
+document.querySelectorAll("textarea").forEach(t=>t.value="")
+
+document.getElementById("previewFoto").src=""
+
+}
+
+function salvarFicha(){
+
+let ficha={
+
+id:fichaAtual || Date.now(),
+
+nome:document.getElementById("nome").value,
+foto:document.getElementById("previewFoto").src,
+
+vidaAtual:document.getElementById("vidaAtual").value,
+vidaMax:document.getElementById("vidaMax").value,
+
+sanAtual:document.getElementById("sanAtual").value,
+sanMax:document.getElementById("sanMax").value,
+
+defesa:document.getElementById("defesa").value,
+
+forca:document.getElementById("forca").value,
+agilidade:document.getElementById("agilidade").value,
+presenca:document.getElementById("presenca").value,
+intelecto:document.getElementById("intelecto").value,
+vigor:document.getElementById("vigor").value,
+
+habilidades:document.getElementById("habilidades").value,
+magias:document.getElementById("magias").value,
+itens:document.getElementById("itens").value
+
+}
+
+let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
+
+let index=fichas.findIndex(f=>f.id==ficha.id)
+
+if(index>=0) fichas[index]=ficha
+else fichas.push(ficha)
+
+localStorage.setItem("fichas",JSON.stringify(fichas))
+
+alert("Ficha salva!")
+
+}
+
+function carregarMenu(){
+
+let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
+
+let lista=document.getElementById("listaFichas")
+
+lista.innerHTML=""
+
+fichas.forEach(f=>{
+
+let card=document.createElement("div")
+card.className="cardFicha"
+
+card.innerHTML=`
+<div class="excluir" onclick="excluirFicha(${f.id},event)">X</div>
+<h3>${f.nome}</h3>
+<img src="${f.foto}">
+`
+
+card.onclick=()=>abrirFicha(f.id)
+
+lista.appendChild(card)
+
+})
+
+}
+
+function excluirFicha(id,event){
+
+event.stopPropagation()
+
+if(confirm("Excluir essa ficha?")){
+
+let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
+
+fichas=fichas.filter(f=>f.id!=id)
+
+localStorage.setItem("fichas",JSON.stringify(fichas))
+
+carregarMenu()
+
+}
+
+}
+
+function abrirFicha(id){
+
+let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
+
+let f=fichas.find(x=>x.id==id)
+
+fichaAtual=id
+
+document.getElementById("menuFichas").style.display="none"
+document.getElementById("ficha").style.display="block"
+
+document.getElementById("nome").value=f.nome
+document.getElementById("previewFoto").src=f.foto
+
+document.getElementById("vidaAtual").value=f.vidaAtual
+document.getElementById("vidaMax").value=f.vidaMax
+
+document.getElementById("sanAtual").value=f.sanAtual
+document.getElementById("sanMax").value=f.sanMax
+
+document.getElementById("defesa").value=f.defesa
+
+document.getElementById("forca").value=f.forca
+document.getElementById("agilidade").value=f.agilidade
+document.getElementById("presenca").value=f.presenca
+document.getElementById("intelecto").value=f.intelecto
+document.getElementById("vigor").value=f.vigor
+
+document.getElementById("habilidades").value=f.habilidades
+document.getElementById("magias").value=f.magias
+document.getElementById("itens").value=f.itens
+
+}
+
+function voltarMenu(){
+
+document.getElementById("menuFichas").style.display="block"
+document.getElementById("ficha").style.display="none"
+
+carregarMenu()
+
+}
 
 function addDado(lados){
 
 let valor=Math.floor(Math.random()*lados)+1
+
 dados.push(valor)
+
 resultado+=valor
 
 document.getElementById("listaDados").innerText=dados.join(" + ")
+
 document.getElementById("resultado").innerText=resultado
 
 }
@@ -287,6 +467,7 @@ document.getElementById("resultado").innerText=0
 function vida(v){
 
 let campo=document.getElementById("vidaAtual")
+
 campo.value=parseInt(campo.value||0)+v
 
 }
@@ -294,45 +475,12 @@ campo.value=parseInt(campo.value||0)+v
 function sanidade(v){
 
 let campo=document.getElementById("sanAtual")
+
 campo.value=parseInt(campo.value||0)+v
 
 }
 
-function salvarFicha(){
-
-let ficha={
-
-nome:document.getElementById("nome").value,
-vidaAtual:document.getElementById("vidaAtual").value,
-vidaMax:document.getElementById("vidaMax").value
-
-}
-
-let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
-
-fichas.push(ficha)
-
-localStorage.setItem("fichas",JSON.stringify(fichas))
-
-alert("Ficha salva!")
-
-}
-
-function mostrarSalvas(){
-
-let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
-
-let div=document.getElementById("fichasSalvas")
-
-div.innerHTML="<h2>Fichas Salvas</h2>"
-
-fichas.forEach(f=>{
-
-div.innerHTML+=f.nome+"<br>"
-
-})
-
-}
+window.onload=carregarMenu
 
 </script>
 
