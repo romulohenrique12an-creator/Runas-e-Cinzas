@@ -1,565 +1,340 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="pt-br">
 <head>
-
+<meta charset="UTF-8">
 <title>Entre Runas e Cinzas</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-font-family:Arial;
 background-image:url("fundo.png");
 background-size:cover;
-background-position:center;
-background-attachment:fixed;
+font-family:serif;
+font-weight:bold;
+margin:0;
 color:white;
-padding:30px;
 }
 
-h1,h2{
-text-align:center;
-}
+/* BARRA CENTRAL */
 
 .container{
-max-width:900px;
+width:1100px;
 margin:auto;
-background:rgba(20,20,20,0.9);
-padding:25px;
-border-radius:12px;
-box-shadow:0 0 20px rgba(0,0,0,0.7);
+background:#2a2a2a;
+padding:30px;
+min-height:100vh;
 }
 
-.topo{
-position:sticky;
-top:0;
-background:rgba(0,0,0,0.9);
-padding:10px;
-border-radius:8px;
-margin-bottom:20px;
-text-align:center;
-font-size:18px;
-}
+/* INPUTS ESCUROS */
 
-button{
-background:#444;
-color:white;
-border:none;
-padding:5px 10px;
-border-radius:5px;
-cursor:pointer;
-}
-
-button:hover{
-background:#666;
-}
-
-.pericia{
-display:grid;
-grid-template-columns:1fr 150px 120px;
-align-items:center;
-margin:6px 0;
-border-bottom:1px solid rgba(255,255,255,0.1);
-padding-bottom:4px;
-}
-
-.controle{
-display:flex;
-justify-content:center;
-gap:8px;
-}
-
-.numero{
-width:30px;
-text-align:center;
-font-weight:bold;
-}
-
-.status{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-margin-bottom:20px;
-}
-
-.statusbox{
-background:#222;
-padding:15px;
-border-radius:8px;
-text-align:center;
-}
-
-.maxbox{
-width:60px;
+input, textarea{
 background:#111;
 color:white;
-border:none;
-border-radius:5px;
-text-align:center;
-margin-bottom:10px;
+border:1px solid #555;
+padding:5px;
+font-family:serif;
+font-weight:bold;
 }
 
 textarea{
 width:100%;
-height:100px;
-background:#1f1f1f;
-color:white;
-border:none;
-border-radius:6px;
-margin-bottom:20px;
-padding:10px;
+height:120px;
 }
 
-.fichaCard{
+/* TOPO */
+
+.topo{
+display:flex;
+justify-content:space-between;
+}
+
+.personagem{
+width:40%;
+}
+
+.status{
+width:30%;
+}
+
+.foto{
+width:120px;
+height:120px;
+background:#111;
+border:1px solid #555;
+margin-top:10px;
+}
+
+/* ROLADOR */
+
+.dados{
+margin:20px 0;
+padding:15px;
+background:#1a1a1a;
+border:1px solid #444;
+}
+
+/* ATRIBUTOS + PERICIAS */
+
+.stats{
+display:flex;
+margin-top:20px;
+gap:50px;
+}
+
+.atributos{
+width:250px;
+}
+
+.atributo{
+display:flex;
+justify-content:space-between;
+margin:5px 0;
+}
+
+.pericias{
+flex:1;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:5px 20px;
+}
+
+.pericia{
+display:flex;
+justify-content:space-between;
+}
+
+/* CAIXAS */
+
+.caixas{
+margin-top:30px;
+}
+
+button{
 background:#222;
-padding:10px;
-border-radius:10px;
-width:160px;
-text-align:center;
+color:white;
+border:1px solid #555;
+padding:5px 10px;
+margin:3px;
+cursor:pointer;
+font-family:serif;
+font-weight:bold;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div id="menu">
+<div class="container">
 
 <h1>Entre Runas e Cinzas</h1>
 
-<button onclick="novaFicha()">Criar Nova Ficha</button>
-
-<div id="listaFichas" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:30px;"></div>
-
-</div>
-
-<div class="container" id="editor" style="display:none">
-
-<h1>Ficha</h1>
-
 <div class="topo">
 
-Pontos de Perícia: <span id="pontos">70</span>
+<div class="personagem">
 
-<button onclick="maisPontos()">+4</button> <button onclick="menosPontos()">-4</button>
+Nome do personagem<br>
+<input id="nome"><br>
 
+<div class="foto">
+<input type="file">
 </div>
 
-<label>Nome</label> <input id="nome">
-
-<label>Imagem do Personagem</label>
-<br>
-
-<img id="preview" src="" style="width:120px;height:120px;object-fit:cover;border-radius:8px;background:#222;">
-
-<br><br>
-
-<input type="file" accept="image/*" onchange="carregarImagem(event)">
-
-<label>Classe</label> <select id="classe">
-
-<option>Assassino</option>
-<option>Tank</option>
-<option>Mago</option>
-<option>Investigador</option>
-</select>
-
-<label>Defesa</label> <input id="defesa" type="number">
-
-<h2>Status</h2>
+</div>
 
 <div class="status">
 
-<div class="statusbox">
+Vida<br>
+Atual <button onclick="vida(-1)">-</button>
+<input id="vidaAtual" value="0">
+<button onclick="vida(1)">+</button><br>
 
-Vida Máxima <br> <input id="vidaMax" class="maxbox" type="number" onchange="sincronizarVida()">
+Máx <input id="vidaMax"><br><br>
+
+Sanidade<br>
+Atual <button onclick="sanidade(-1)">-</button>
+<input id="sanAtual" value="0">
+<button onclick="sanidade(1)">+</button><br>
+
+Máx <input id="sanMax"><br><br>
+
+Defesa<br>
+<input id="defesa">
+
+</div>
+
+</div>
+
+<div class="dados">
+
+<h3>Rolador de Dados</h3>
+
+<button onclick="addDado(4)">D4</button>
+<button onclick="addDado(6)">D6</button>
+<button onclick="addDado(8)">D8</button>
+<button onclick="addDado(10)">D10</button>
+<button onclick="addDado(12)">D12</button>
+<button onclick="addDado(20)">D20</button>
+<button onclick="addDado(100)">D100</button>
+
+<p id="listaDados"></p>
+
+Resultado: <span id="resultado">0</span>
 
 <br>
 
-Vida Atual
+<button onclick="resetDados()">Reset</button>
 
-<div class="controle">
+</div>
 
-<button onclick="menosStatus('vida')">-</button> <span id="vida">0</span> <button onclick="maisStatus('vida')">+</button>
+<div class="stats">
+
+<div class="atributos">
+
+<h3>Atributos</h3>
+
+<div class="atributo">Força <input id="forca"></div>
+<div class="atributo">Agilidade <input id="agilidade"></div>
+<div class="atributo">Presença <input id="presenca"></div>
+<div class="atributo">Intelecto <input id="intelecto"></div>
+<div class="atributo">Vigor <input id="vigor"></div>
+
+</div>
+
+<div class="pericias">
+
+<div class="pericia">Luta <input></div>
+<div class="pericia">Espadas <input></div>
+<div class="pericia">Lâminas leves <input></div>
+<div class="pericia">Armas pesadas <input></div>
+<div class="pericia">Atletismo <input></div>
+<div class="pericia">Pontaria <input></div>
+<div class="pericia">Acrobacia <input></div>
+<div class="pericia">Furtividade <input></div>
+<div class="pericia">Esquiva <input></div>
+<div class="pericia">Iniciativa <input></div>
+<div class="pericia">Percepção <input></div>
+<div class="pericia">Sobrevivência <input></div>
+<div class="pericia">Vontade <input></div>
+<div class="pericia">Intuição <input></div>
+<div class="pericia">Investigação <input></div>
+<div class="pericia">Intimidação <input></div>
+<div class="pericia">Enganação <input></div>
+<div class="pericia">Adestramento <input></div>
+<div class="pericia">Diplomacia <input></div>
+<div class="pericia">Artes <input></div>
+<div class="pericia">Crime <input></div>
+<div class="pericia">Magia <input></div>
+<div class="pericia">Arcano <input></div>
+<div class="pericia">Medicina <input></div>
+<div class="pericia">Plotagem <input></div>
+<div class="pericia">Tecnologia <input></div>
+<div class="pericia">Sorte <input></div>
+<div class="pericia">Explosivos <input></div>
 
 </div>
 
 </div>
 
-<div class="statusbox">
+<div class="caixas">
 
-Sanidade Máxima <br> <input id="sanMax" class="maxbox" type="number" onchange="sincronizarSan()">
+<h3>Habilidades</h3>
+<textarea></textarea>
+
+<h3>Magias</h3>
+<textarea></textarea>
+
+<h3>Itens</h3>
+<textarea></textarea>
+
+</div>
 
 <br>
 
-Sanidade Atual
+<button onclick="salvarFicha()">Salvar ficha</button>
+<button onclick="mostrarSalvas()">Voltar</button>
 
-<div class="controle">
-
-<button onclick="menosStatus('sanidade')">-</button> <span id="sanidade">0</span> <button onclick="maisStatus('sanidade')">+</button>
-
-</div>
-
-</div>
-
-</div>
-
-<h2>Rolagem de Dados</h2>
-
-<div style="text-align:center;margin-bottom:20px;">
-
-<button onclick="rolarDado(4)">D4</button>
-<button onclick="rolarDado(6)">D6</button>
-<button onclick="rolarDado(8)">D8</button>
-<button onclick="rolarDado(10)">D10</button>
-<button onclick="rolarDado(12)">D12</button>
-<button onclick="rolarDado(20)">D20</button>
-<button onclick="rolarDado(100)">D100</button>
-
-<div style="margin-top:10px;font-size:20px;">
-Resultado: <span id="resultadoDado">-</span>
-</div>
-
-</div>
-
-<h2>Perícias</h2>
-
-<div id="lista"></div>
-
-<h2>Habilidades</h2>
-<textarea id="habilidades"></textarea>
-
-<h2>Magias</h2>
-<textarea id="magias"></textarea>
-
-<h2>Itens</h2>
-<textarea id="itens"></textarea>
-
-<br>
-
-<button onclick="salvarFicha()">Salvar Ficha</button> <button onclick="voltarMenu()">Voltar</button>
+<div id="fichasSalvas"></div>
 
 </div>
 
 <script>
 
-let fichas=JSON.parse(localStorage.getItem("fichasERC"))||[]
-let fichaAtual=null
+let dados=[]
+let resultado=0
 
-let pontos=70
+function addDado(lados){
 
-let pericias=[
-"Espadas","Lâminas Leves","Armas Pesadas","Arcos","Combate Desarmado", "Esquiva","Força","Pontaria", "Atletismo","Acrobacia","Escalada","Iniciativa","Furtividade","Reflexos", "Natação", "Investigação","Percepção","História","Religião","Linguística","Intuição", "Arcano","Conhecimento", "Persuasão","Diplomacia","Intimidação","Enganação","Empatia", "Liderança","Vontade", "Sobrevivência","Rastreamento","Caça","Agricultura","Navegação", "Adestramento","Crime", "Medicina","Alquimia","Engenharia","Ferraria","Tecnologia","Magia", "Pilotagem","Artesanato","Música","Culinária","Pintura","Sorte",
-]
+let valor=Math.floor(Math.random()*lados)+1
+dados.push(valor)
+resultado+=valor
 
-let lista=document.getElementById("lista")
-
-pericias.forEach(nome=>{
-
-let id=nome.replace(/\s/g,'')
-
-let div=document.createElement("div")
-div.className="pericia"
-
-div.innerHTML=`
-
-<span>${nome}</span>
-
-<div class="controle">
-
-<button onclick="menos('${id}')">-</button>
-
-<span class="numero" id="${id}">0</span>
-
-<button onclick="mais('${id}')">+</button>
-
-</div>
-
-<div>
-
-<button onclick="rolar('${id}')">🎲</button>
-
-<span id="resultado_${id}"></span>
-
-</div>
-
-`
-
-lista.appendChild(div)
-
-})
-
-function mais(nome){
-
-let el=document.getElementById(nome)
-
-let v=parseInt(el.innerText)
-
-if(v>=4)return
-if(pontos<=0)return
-
-el.innerText=v+1
-pontos--
-
-atualizarPontos()
+document.getElementById("listaDados").innerText=dados.join(" + ")
+document.getElementById("resultado").innerText=resultado
 
 }
 
-function menos(nome){
+function resetDados(){
 
-let el=document.getElementById(nome)
+dados=[]
+resultado=0
 
-let v=parseInt(el.innerText)
-
-if(v<=0)return
-
-el.innerText=v-1
-pontos++
-
-atualizarPontos()
+document.getElementById("listaDados").innerText=""
+document.getElementById("resultado").innerText=0
 
 }
 
-function atualizarPontos(){
+function vida(v){
 
-document.getElementById("pontos").innerText=pontos
-
-}
-
-function maisPontos(){
-
-pontos+=4
-atualizarPontos()
+let campo=document.getElementById("vidaAtual")
+campo.value=parseInt(campo.value||0)+v
 
 }
 
-function menosPontos(){
+function sanidade(v){
 
-if(pontos>=4){
-pontos-=4
-}
-
-atualizarPontos()
+let campo=document.getElementById("sanAtual")
+campo.value=parseInt(campo.value||0)+v
 
 }
-
-function rolar(nome){
-
-    let nivel = parseInt(document.getElementById(nome).innerText)
-
-    let d12 = Math.floor(Math.random()*12)+1
-    let bonus = 0
-    let dadoBonus = 0
-
-    if(nivel==1){dadoBonus=4}
-    if(nivel==2){dadoBonus=6}
-    if(nivel==3){dadoBonus=8}
-    if(nivel==4){dadoBonus=10}
-
-    if(dadoBonus>0){
-        bonus = Math.floor(Math.random()*dadoBonus)+1
-    }
-
-    let total = d12 + bonus
-
-    // Verifica fracasso
-    let resultado = "Sucesso"
-    if(total < 6){
-        resultado = "Fracasso"
-    }
-
-    // Verifica extremo
-    let extremoMin = [12,15,16,17,18]
-    let extremoMax = [12,16,18,20,22]
-
-    if(total >= extremoMin[nivel] && total <= extremoMax[nivel]){
-        resultado = "Extremo"
-    }
-
-    // Texto mostrado
-    let texto = "D12:"+d12
-    if(dadoBonus>0){
-        texto += " D"+dadoBonus+":"+bonus
-    }
-    texto += " → "+resultado
-
-    document.getElementById("resultado_"+nome).innerText = texto
-}
-
-function maisStatus(nome){
-
-let el=document.getElementById(nome)
-
-el.innerText=parseInt(el.innerText)+1
-
-}
-
-function menosStatus(nome){
-
-let el=document.getElementById(nome)
-
-let v=parseInt(el.innerText)
-
-if(v>0)el.innerText=v-1
-
-}
-
-function sincronizarVida(){
-
-let max=document.getElementById("vidaMax").value
-
-document.getElementById("vida").innerText=max
-
-}
-
-function sincronizarSan(){
-
-let max=document.getElementById("sanMax").value
-
-document.getElementById("sanidade").innerText=max
-
-}
-
-function novaFicha(){
-
-fichaAtual=null
-
-menu.style.display="none"
-editor.style.display="block"
-
-}
-
-pericias.forEach(nome=>{
-let id = nome.replace(/\s/g,'')
-document.getElementById(id).innerText = 0
-})
 
 function salvarFicha(){
 
-let dadosPericias = {}
-
-pericias.forEach(nome=>{
-let id = nome.replace(/\s/g,'')
-dadosPericias[id] = parseInt(document.getElementById(id).innerText)
-})
-
 let ficha={
-nome:nome.value,
-classe:classe.value,
-defesa:defesa.value,
 
-vida:vida.innerText,
-vidaMax:vidaMax.value,
+nome:document.getElementById("nome").value,
+vidaAtual:document.getElementById("vidaAtual").value,
+vidaMax:document.getElementById("vidaMax").value
 
-sanidade:sanidade.innerText,
-sanMax:sanMax.value,
-
-habilidades:habilidades.value,
-magias:magias.value,
-itens:itens.value,
-
-pericias:dadosPericias,
-pontos:pontos
 }
 
-if(fichaAtual==null){
+let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
+
 fichas.push(ficha)
-}else{
-fichas[fichaAtual]=ficha
-}
 
-localStorage.setItem("fichasERC",JSON.stringify(fichas))
+localStorage.setItem("fichas",JSON.stringify(fichas))
 
-voltarMenu()
+alert("Ficha salva!")
 
 }
 
-function abrirFicha(i){
+function mostrarSalvas(){
 
-let f=fichas[i]
+let fichas=JSON.parse(localStorage.getItem("fichas")||"[]")
 
-fichaAtual=i
+let div=document.getElementById("fichasSalvas")
 
-menu.style.display="none"
-editor.style.display="block"
+div.innerHTML="<h2>Fichas Salvas</h2>"
 
-nome.value=f.nome
-classe.value=f.classe
-defesa.value=f.defesa
-vida.innerText=f.vida
-vidaMax.value=f.vidaMax
-sanidade.innerText=f.sanidade
-sanMax.value=f.sanMax
+fichas.forEach(f=>{
 
-}
-
-function excluirFicha(i){
-
-if(confirm("Excluir ficha de "+fichas[i].nome+"?")){
-
-fichas.splice(i,1)
-
-localStorage.setItem("fichasERC",JSON.stringify(fichas))
-
-carregarMenu()
-
-}
-
-}
-
-function carregarMenu(){
-
-listaFichas.innerHTML=""
-
-fichas.forEach((f,i)=>{
-
-let card=document.createElement("div")
-card.className="fichaCard"
-
-card.innerHTML=`
-
-<h3>${f.nome}</h3>
-
-<button onclick="abrirFicha(${i})">Abrir</button>
-
-<button onclick="excluirFicha(${i})">Excluir</button>
-
-`
-
-listaFichas.appendChild(card)
+div.innerHTML+=f.nome+"<br>"
 
 })
-
-}
-
-carregarMenu()
-
-function carregarImagem(event){
-
-let reader = new FileReader()
-
-reader.onload = function(){
-document.getElementById("preview").src = reader.result
-}
-
-reader.readAsDataURL(event.target.files[0])
-
-}
-
-function rolarDado(lados){
-
-let resultado = Math.floor(Math.random()*lados)+1
-
-document.getElementById("resultadoDado").innerText = resultado
 
 }
 
 </script>
 
 </body>
-
 </html>
