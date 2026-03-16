@@ -213,34 +213,34 @@ Resultado: <span id="resultado">0</span>
 
 <div class="pericias">
 
-<div class="pericia">Luta <input></div>
-<div class="pericia">Espadas <input></div>
-<div class="pericia">Lâminas leves <input></div>
-<div class="pericia">Armas pesadas <input></div>
-<div class="pericia">Atletismo <input></div>
-<div class="pericia">Pontaria <input></div>
-<div class="pericia">Acrobacia <input></div>
-<div class="pericia">Furtividade <input></div>
-<div class="pericia">Esquiva <input></div>
-<div class="pericia">Iniciativa <input></div>
-<div class="pericia">Percepção <input></div>
-<div class="pericia">Sobrevivência <input></div>
-<div class="pericia">Vontade <input></div>
-<div class="pericia">Intuição <input></div>
-<div class="pericia">Investigação <input></div>
-<div class="pericia">Intimidação <input></div>
-<div class="pericia">Enganação <input></div>
-<div class="pericia">Adestramento <input></div>
-<div class="pericia">Diplomacia <input></div>
-<div class="pericia">Artes <input></div>
-<div class="pericia">Crime <input></div>
-<div class="pericia">Magia <input></div>
-<div class="pericia">Arcano <input></div>
-<div class="pericia">Medicina <input></div>
-<div class="pericia">Plotagem <input></div>
-<div class="pericia">Tecnologia <input></div>
-<div class="pericia">Sorte <input></div>
-<div class="pericia">Explosivos <input></div>
+<div class="pericia">Luta <input id="luta"></div>
+<div class="pericia">Espadas <input id="espadas"></div>
+<div class="pericia">Lâminas leves <input id="laminasLeves"></div>
+<div class="pericia">Armas pesadas <input id="armasPesadas"></div>
+<div class="pericia">Atletismo <input id="atletismo"></div>
+<div class="pericia">Pontaria <input id="pontaria"></div>
+<div class="pericia">Acrobacia <input id="acrobacia"></div>
+<div class="pericia">Furtividade <input id="furtividade"></div>
+<div class="pericia">Esquiva <input id="esquiva"></div>
+<div class="pericia">Iniciativa <input id="iniciativa"></div>
+<div class="pericia">Percepção <input id="percepcao"></div>
+<div class="pericia">Sobrevivência <input id="sobrevivencia"></div>
+<div class="pericia">Vontade <input id="vontade"></div>
+<div class="pericia">Intuição <input id="intuicao"></div>
+<div class="pericia">Investigação <input id="investigacao"></div>
+<div class="pericia">Intimidação <input id="intimidacao"></div>
+<div class="pericia">Enganação <input id="enganacao"></div>
+<div class="pericia">Adestramento <input id="adestramento"></div>
+<div class="pericia">Diplomacia <input id="diplomacia"></div>
+<div class="pericia">Artes <input id="artes"></div>
+<div class="pericia">Crime <input id="crime"></div>
+<div class="pericia">Magia <input id="magia"></div>
+<div class="pericia">Arcano <input id="arcano"></div>
+<div class="pericia">Medicina <input id="medicina"></div>
+<div class="pericia">Plotagem <input id="plotagem"></div>
+<div class="pericia">Tecnologia <input id="tecnologia"></div>
+<div class="pericia">Sorte <input id="sorte"></div>
+<div class="pericia">Explosivos <input id="explosivos"></div>
 
 </div>
 
@@ -333,6 +333,35 @@ presenca:document.getElementById("presenca").value,
 intelecto:document.getElementById("intelecto").value,
 vigor:document.getElementById("vigor").value,
 
+luta:document.getElementById("luta").value,
+espadas:document.getElementById("espadas").value,
+laminasLeves:document.getElementById("laminasLeves").value,
+armasPesadas:document.getElementById("armasPesadas").value,
+atletismo:document.getElementById("atletismo").value,
+pontaria:document.getElementById("pontaria").value,
+acrobacia:document.getElementById("acrobacia").value,
+furtividade:document.getElementById("furtividade").value,
+esquiva:document.getElementById("esquiva").value,
+iniciativa:document.getElementById("iniciativa").value,
+percepcao:document.getElementById("percepcao").value,
+sobrevivencia:document.getElementById("sobrevivencia").value,
+vontade:document.getElementById("vontade").value,
+intuicao:document.getElementById("intuicao").value,
+investigacao:document.getElementById("investigacao").value,
+intimidacao:document.getElementById("intimidacao").value,
+enganacao:document.getElementById("enganacao").value,
+adestramento:document.getElementById("adestramento").value,
+diplomacia:document.getElementById("diplomacia").value,
+artes:document.getElementById("artes").value,
+crime:document.getElementById("crime").value,
+magia:document.getElementById("magia").value,
+arcano:document.getElementById("arcano").value,
+medicina:document.getElementById("medicina").value,
+plotagem:document.getElementById("plotagem").value,
+tecnologia:document.getElementById("tecnologia").value,
+sorte:document.getElementById("sorte").value,
+explosivos:document.getElementById("explosivos").value,
+
 habilidades:document.getElementById("habilidades").value,
 magias:document.getElementById("magias").value,
 itens:document.getElementById("itens").value
@@ -424,6 +453,35 @@ document.getElementById("agilidade").value=f.agilidade
 document.getElementById("presenca").value=f.presenca
 document.getElementById("intelecto").value=f.intelecto
 document.getElementById("vigor").value=f.vigor
+
+document.getElementById("luta").value=f.luta
+document.getElementById("espadas").value=f.espadas
+document.getElementById("laminasLeves").value=f.laminasLeves
+document.getElementById("armasPesadas").value=f.armasPesadas
+document.getElementById("atletismo").value=f.atletismo
+document.getElementById("pontaria").value=f.pontaria
+document.getElementById("acrobacia").value=f.acrobacia
+document.getElementById("furtividade").value=f.furtividade
+document.getElementById("esquiva").value=f.esquiva
+document.getElementById("iniciativa").value=f.iniciativa
+document.getElementById("percepcao").value=f.percepcao
+document.getElementById("sobrevivencia").value=f.sobrevivencia
+document.getElementById("vontade").value=f.vontade
+document.getElementById("intuicao").value=f.intuicao
+document.getElementById("investigacao").value=f.investigacao
+document.getElementById("intimidacao").value=f.intimidacao
+document.getElementById("enganacao").value=f.enganacao
+document.getElementById("adestramento").value=f.adestramento
+document.getElementById("diplomacia").value=f.diplomacia
+document.getElementById("artes").value=f.artes
+document.getElementById("crime").value=f.crime
+document.getElementById("magia").value=f.magia
+document.getElementById("arcano").value=f.arcano
+document.getElementById("medicina").value=f.medicina
+document.getElementById("plotagem").value=f.plotagem
+document.getElementById("tecnologia").value=f.tecnologia
+document.getElementById("sorte").value=f.sorte
+document.getElementById("explosivos").value=f.explosivos
 
 document.getElementById("habilidades").value=f.habilidades
 document.getElementById("magias").value=f.magias
