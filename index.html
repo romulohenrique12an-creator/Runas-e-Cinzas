@@ -111,6 +111,53 @@ font-size:12px;
 cursor:pointer;
 }
 
+#habilidadesEspeciais{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.slotHab{
+position:relative;
+text-align:center;
+}
+
+.slotHab img{
+width:120px;
+height:120px;
+object-fit:cover;
+background:#111;
+border:1px solid #555;
+cursor:pointer;
+}
+
+.slotHab button{
+position:absolute;
+top:0;
+right:0;
+background:#800;
+padding:2px 6px;
+}
+
+#overlay{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+#imagemGrande{
+max-width:90%;
+max-height:90%;
+}
+
 </style>
 
 </head>
@@ -171,7 +218,20 @@ Máx <input id="sanMax">
 
 <br><br>
 
-Defesa<br> <input id="defesa">
+Defesa<br>
+<input id="defesa">
+
+<br><br>
+
+PE<br>
+
+Atual <button onclick="pe(-1)">-</button>
+<input id="peAtual" value="0">
+<button onclick="pe(1)">+</button>
+
+<br>
+
+Máx <input id="peMax">
 
 </div>
 
@@ -253,6 +313,48 @@ Resultado: <span id="resultado">0</span>
 <h3>Habilidades</h3>
 <textarea id="habilidades"></textarea>
 
+<h3>Habilidades Especiais</h3>
+
+<div id="habilidadesEspeciais">
+
+<div class="slotHab">
+<img id="hab1" onclick="ampliarImagem(this)">
+<input type="file" onchange="carregarHab(event,'hab1')">
+<button onclick="removerHab('hab1')">X</button>
+</div>
+
+<div class="slotHab">
+<img id="hab2" onclick="ampliarImagem(this)">
+<input type="file" onchange="carregarHab(event,'hab2')">
+<button onclick="removerHab('hab2')">X</button>
+</div>
+
+<div class="slotHab">
+<img id="hab3" onclick="ampliarImagem(this)">
+<input type="file" onchange="carregarHab(event,'hab3')">
+<button onclick="removerHab('hab3')">X</button>
+</div>
+
+<div class="slotHab">
+<img id="hab4" onclick="ampliarImagem(this)">
+<input type="file" onchange="carregarHab(event,'hab4')">
+<button onclick="removerHab('hab4')">X</button>
+</div>
+
+<div class="slotHab">
+<img id="hab5" onclick="ampliarImagem(this)">
+<input type="file" onchange="carregarHab(event,'hab5')">
+<button onclick="removerHab('hab5')">X</button>
+</div>
+
+<div class="slotHab">
+<img id="hab6" onclick="ampliarImagem(this)">
+<input type="file" onchange="carregarHab(event,'hab6')">
+<button onclick="removerHab('hab6')">X</button>
+</div>
+
+</div>
+
 <h3>Magias</h3>
 <textarea id="magias"></textarea>
 
@@ -326,6 +428,9 @@ vidaMax:document.getElementById("vidaMax").value,
 
 sanAtual:document.getElementById("sanAtual").value,
 sanMax:document.getElementById("sanMax").value,
+
+peAtual:document.getElementById("peAtual").value,
+peMax:document.getElementById("peMax").value,
 
 defesa:document.getElementById("defesa").value,
 
@@ -449,6 +554,9 @@ document.getElementById("vidaMax").value=f.vidaMax
 document.getElementById("sanAtual").value=f.sanAtual
 document.getElementById("sanMax").value=f.sanMax
 
+document.getElementById("peAtual").value=f.peAtual
+document.getElementById("peMax").value=f.peMax
+
 document.getElementById("defesa").value=f.defesa
 
 document.getElementById("forca").value=f.forca
@@ -542,9 +650,58 @@ campo.value=parseInt(campo.value||0)+v
 
 }
 
+function pe(v){
+
+let campo=document.getElementById("peAtual")
+
+campo.value=parseInt(campo.value||0)+v
+
+}
+
 window.onload=carregarMenu
 
+function carregarHab(event,id){
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+document.getElementById(id).src=e.target.result
+
+}
+
+reader.readAsDataURL(event.target.files[0])
+
+}
+
+function ampliarImagem(img){
+
+if(!img.src) return
+
+document.getElementById("overlay").style.display="flex"
+document.getElementById("imagemGrande").src=img.src
+
+}
+
+function fecharImagem(){
+
+document.getElementById("overlay").style.display="none"
+
+}
+
+function removerHab(id){
+
+document.getElementById(id).src=""
+
+}
+
 </script>
+
+<div id="overlay" onclick="fecharImagem()">
+
+<img id="imagemGrande">
+
+</div>
 
 </body>
 </html>
