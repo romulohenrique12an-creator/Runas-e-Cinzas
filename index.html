@@ -326,34 +326,6 @@ text-align:center;
 margin-left:52px;
 }
 
-.areaHab{
-width:120px;
-height:120px;
-border:1px solid #777;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-cursor:pointer;
-overflow:hidden;
-background:#111;
-}
-
-.areaHab img{
-width:100%;
-height:100%;
-object-fit:cover;
-position:absolute;
-top:0;
-left:0;
-}
-
-.maisHab{
-font-size:50px;
-color:#888;
-pointer-events:none;
-}
-
 </style>
 
 </head>
@@ -514,80 +486,40 @@ Resultado: <span id="resultado">0</span>
 <div id="habilidadesEspeciais">
 
 <div class="slotHab">
-
-<div class="areaHab" onclick="document.getElementById('fileHab1').click()">
 <img id="hab1" onclick="ampliarImagem(this)">
-<span class="maisHab">+</span>
-</div>
-
-<input type="file" id="fileHab1" hidden onchange="carregarHab(event,'hab1')">
-
+<input type="file" onchange="carregarHab(event,'hab1')">
 <button onclick="removerHab('hab1')">X</button>
-
 </div>
 
 <div class="slotHab">
-
-<div class="areaHab" onclick="document.getElementById('fileHab2').click()">
 <img id="hab1" onclick="ampliarImagem(this)">
-<span class="maisHab">+</span>
-</div>
-
-<input type="file" id="fileHab1" hidden onchange="carregarHab(event,'hab1')">
-
+<input type="file" onchange="carregarHab(event,'hab2')">
 <button onclick="removerHab('hab1')">X</button>
-
 </div>
 
 <div class="slotHab">
-
-<div class="areaHab" onclick="document.getElementById('fileHab3').click()">
 <img id="hab1" onclick="ampliarImagem(this)">
-<span class="maisHab">+</span>
-</div>
-
-<input type="file" id="fileHab1" hidden onchange="carregarHab(event,'hab1')">
-
+<input type="file" onchange="carregarHab(event,'hab3')">
 <button onclick="removerHab('hab1')">X</button>
-
 </div>
 
 <div class="slotHab">
-
-<div class="areaHab" onclick="document.getElementById('fileHab4').click()">
 <img id="hab1" onclick="ampliarImagem(this)">
-<span class="maisHab">+</span>
-</div>
-
-<input type="file" id="fileHab1" hidden onchange="carregarHab(event,'hab1')">
-
+<input type="file" onchange="carregarHab(event,'hab4')">
 <button onclick="removerHab('hab1')">X</button>
-
 </div>
 
 <div class="slotHab">
-
-<div class="areaHab" onclick="document.getElementById('fileHab5').click()">
 <img id="hab1" onclick="ampliarImagem(this)">
-<span class="maisHab">+</span>
-</div>
-
-<input type="file" id="fileHab1" hidden onchange="carregarHab(event,'hab1')">
-
+<input type="file" onchange="carregarHab(event,'hab5')">
 <button onclick="removerHab('hab1')">X</button>
-
 </div>
 
 <div class="slotHab">
-
-<div class="areaHab" onclick="document.getElementById('fileHab6').click()">
 <img id="hab1" onclick="ampliarImagem(this)">
-<span class="maisHab">+</span>
-</div>
-
-<input type="file" id="fileHab1" hidden onchange="carregarHab(event,'hab1')">
-
+<input type="file" onchange="carregarHab(event,'hab6')">
 <button onclick="removerHab('hab1')">X</button>
+</div>
 
 </div>
 
@@ -904,11 +836,6 @@ reader.onload=function(e){
 
 document.getElementById(id).src=e.target.result
 
-document.getElementById(id)
-.parentElement
-.querySelector(".maisHab")
-.style.display="none";
-
 }
 
 reader.readAsDataURL(event.target.files[0])
@@ -933,11 +860,6 @@ document.getElementById("overlay").style.display="none"
 function removerHab(id){
 
 document.getElementById(id).src=""
-
-document.getElementById(id)
-.parentElement
-.querySelector(".maisHab")
-.style.display="block";
 
 }
 
