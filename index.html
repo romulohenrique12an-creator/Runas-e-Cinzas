@@ -580,6 +580,13 @@ document.querySelectorAll("textarea").forEach(t=>t.value="")
 
 document.getElementById("previewFoto").src=""
 
+document.getElementById("hab1").src=""
+document.getElementById("hab2").src=""
+document.getElementById("hab3").src=""
+document.getElementById("hab4").src=""
+document.getElementById("hab5").src=""
+document.getElementById("hab6").src=""
+
 }
 
 function salvarFicha(){
@@ -590,6 +597,13 @@ id:fichaAtual || Date.now(),
 
 nome:document.getElementById("nome").value,
 foto:document.getElementById("previewFoto").src,
+
+hab1:document.getElementById("hab1").src,
+hab2:document.getElementById("hab2").src,
+hab3:document.getElementById("hab3").src,
+hab4:document.getElementById("hab4").src,
+hab5:document.getElementById("hab5").src,
+hab6:document.getElementById("hab6").src,
 
 vidaAtual:document.getElementById("vidaAtual").value,
 vidaMax:document.getElementById("vidaMax").value,
@@ -715,6 +729,13 @@ document.getElementById("ficha").style.display="block"
 
 document.getElementById("nome").value=f.nome
 document.getElementById("previewFoto").src=f.foto
+
+document.getElementById("hab1").src=f.hab1 || ""
+document.getElementById("hab2").src=f.hab2 || ""
+document.getElementById("hab3").src=f.hab3 || ""
+document.getElementById("hab4").src=f.hab4 || ""
+document.getElementById("hab5").src=f.hab5 || ""
+document.getElementById("hab6").src=f.hab6 || ""
 
 document.getElementById("vidaAtual").value=f.vidaAtual
 document.getElementById("vidaMax").value=f.vidaMax
